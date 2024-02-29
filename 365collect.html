@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Arrangement</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
+    <style>
+        .brand-bg{
+            background-color: #FAD806;
+        }
+
+        .brand-fg{
+            color: #FAD806;
+        }
+
+        .brand-fg-dark{
+            color: #054365;
+        }
+
+        .brand-title{
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .no-border{
+            border:none;
+        }
+
+        .brand-img{
+            width: 14em;
+        }
+
+        .text-center{
+            text-align: center;
+        }
+
+        label{
+            font-weight: 400;
+            font-size: 1.3rem;
+        }
+
+        .btn{
+            box-shadow: 0 .125rem .25rem rgb(0 0 0 / 34%) !important;
+            font-weight: 500;
+        }
+
+        .btn span{
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .btn img.icon{
+            width: 3rem;
+            padding-top: 11px;
+            padding-bottom: 13px;
+        }
+
+        .btn-primary{
+            background-color: #054365;
+            border: 1px solid #054365;
+        }
+
+        .dropdown-toggle::after{
+            float: right;
+            margin-top: 7px;
+            font-size: 38px;
+        }
+
+        .dropdown-toggle{
+            text-align: left;
+            padding-left: 17px;
+        }
+
+        input[type="range"] {
+            /* removing default appearance */
+            -webkit-appearance: none;
+            appearance: none; 
+            /* creating a custom design */
+            width: 100%;
+            cursor: pointer;
+            outline: none;
+            border-radius: 15px;
+            /*  overflow: hidden;  remove this line*/
+            
+            /* New additions */
+            height: 15px;
+            background: #ccc;
+        }
+
+        /* Thumb: webkit */
+        input[type="range"]::-webkit-slider-thumb {
+            /* removing default appearance */
+            -webkit-appearance: none;
+            appearance: none; 
+            /* creating a custom design */
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            border: none;
+            /* box-shadow: -407px 0 0 400px #f50; emove this line */
+            transition: .2s ease-in-out;
+        }
+
+        /* Thumb: Firefox */
+        input[type="range"]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            border: none;
+            
+            /* box-shadow: -407px 0 0 400px #f50; emove this line */
+            transition: .2s ease-in-out;
+        }
+
+        .payment-row{
+            position:relative;
+        }
+
+        .payment-row .circle{
+            position: absolute;
+            left: 21px;
+            top: 4px;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #c7c7c7;
+            border-radius: 29px;
+            padding: 0 !important;
+        }
+
+        .payment-row.with-line .circle::after {
+            content: "";
+            display: block;
+            width: 1px;
+            height: 19px;
+            background-color: #cdcdcd;
+            margin-top: 10px;
+            position: absolute;
+            left: 6px;
+            bottom: -19px;
+        }
+        </style>
+    </head>
+    <body>
+
+    <div id="app" class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card no-border">
+                    <div class="text-center mb-3">
+                        <img class="brand-img" src="images/365-collect-logo.png">
+                    </div>
+                    <div class="card-body">
+                        <router-view></router-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- Vue Router -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.3/dist/vue-router.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <!-- Bootstrap JavaScript (Bootstrap 5) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
+
+    <script>
+        $(document).ready(function() {
+        // Define components for each page
+            const HomePage = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <label>Hi Shane,</label>
+                            <br>
+                            <label>how would you like to address your existing debt?</label>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="brand-fg-dark fw-bold">$160.00</h1>
+                        </div>
+                        <div class="px-5">
+                            <router-link to="/pay-total" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Pay Total Amount Now</router-link>
+                            <router-link to="/pay-total-future" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Pay Total In a Future Date</router-link>
+                            <router-link to="/payment-option" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Payment Plan Options</router-link>
+                            <router-link to="/assistance-question" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Discuss Other Options</router-link>
+                        </div>
+                    </div>
+                `
+            };
+
+            const PaymentOptionPage = {
+                template: `
+                    <div class="text-center">
+                        <div class="row mt-5">
+                            <div class="col-6 px-5">
+                                <router-link to="/payment-plan" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                    <img class="icon" src="images/icon-calculator.png"> 
+                                    <br>
+                                    <span class="brand-fg-dark">Calculate for me</span>
+                                    <br>
+                                </router-link>
+                            </div>
+                            <div class="col-6 px-5">
+                                <router-link to="/payment-plan-calculation" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                    <img class="icon" src="images/icon-idea.png"> 
+                                    <br>
+                                    <span class="brand-fg-dark">Let me calculate</span>
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                `
+            };
+            
+            const PaymentPlanPage = {
+                template: `
+                    <div>
+                        <h3 class="text-center brand-fg-dark brand-title">Payment Plan</h3>
+                        <div class="mb-5 text-center">
+                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
+                        </div>
+                        <div class="mb-5 text-center">
+                            <label>Please choose a payment plan that works best for you</label>
+                        </div>
+
+                        <div class="card-body">
+                            <router-link to="/preferred-payment-date" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Weekly</h4>
+                                        <span>Interest: 0% APR (+$0.00)</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>$20/week</h4>
+                                        <span>Total: $160</span>
+                                    </div>
+                                </div>
+                            </router-link>
+
+                            <router-link to="/preferred-payment-date" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Fortnightly</h4>
+                                        <span>Interest: 15% APR (+$30.00)</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>$47.50/fortnight</h4>
+                                        <span>Total: $190</span>
+                                    </div>
+                                </div>
+                            </router-link>
+
+                            <router-link to="/preferred-payment-date" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Monthly</h4>
+                                        <span>Interest: 30% APR (+$60.00)</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>$55/month</h4>
+                                        <span>Total: $220</span>
+                                    </div>
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+                `
+            };
+
+            const PreferredPaymentDatePage = {
+                template: `
+                    <div>
+                        <div class="mt-3">
+                            <label>Please choose when you'd like your payment plan to start</label>
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/MM/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        autoclose: true
+                    });
+                }
+            };
+
+            const PaymentPlanCalculationPage = {
+                template: `
+                    <div>
+                        <h3 class="text-center brand-fg-dark brand-title">Payment Plan Calculation</h3>
+                        <div class="mb-5 text-center">
+                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
+                        </div>
+
+                        <div class="mt-3">
+                            <label>Please choose your payment frequency</label>
+                        </div>
+                        <div class="mt-3">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Frequency</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Weekly</a>
+                                    <a class="dropdown-item" href="#">Fortnightly</a>
+                                    <a class="dropdown-item" href="#">Monthly</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label>Please choose when you'd like your payment plan to start</label>
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        autoclose: true
+                    });
+                }
+            };
+
+            const PaymentPlanConfirmation = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <label>Thank you for setting up your payment plan, Shane. An email will be sent to shane@emailaddress.com with the details of your payment plan.</label>
+                            <br>
+                            <br>
+                            <label>Let us know if you require any further assistance.</label>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-5">
+                                <router-link to="/assistance-question" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                    <img class="icon" src="images/icon-mobile-info.png"> 
+                                    <br>
+                                    <span class="brand-fg-dark">I need further assistance</span>
+                                    <br>
+                                </router-link>
+                            </div>
+                            <div class="col-6 px-5">
+                                <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                    <img class="icon" src="images/icon-hand.png"> 
+                                    <br>
+                                    <span class="brand-fg-dark">I don&apos;t need further assistance</span>
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                `
+            };
+
+            const AssistanceQuestionPage = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-5">
+                            <label>How can we assist you?</label>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-5">
+                                <router-link to="/request-call-back" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                    <img class="icon" src="images/icon-mobile-info.png"> 
+                                    <br>
+                                    <span class="brand-fg-dark">I'd like to discuss my options with someone</span>
+                                    <br>
+                                </router-link>
+                            </div>
+                            <div class="col-6 px-5">
+                                <router-link to="/financial-hardship-assistance" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                    <img class="icon" src="images/icon-hand.png"> 
+                                    <br>
+                                    <span class="brand-fg-dark">Financial Hardship Assistance</span>
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                `
+            };
+
+            const PayTotalAmountNowPage = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-5">
+                            <label>Please choose your payment method</label>
+                        </div>
+                        <div class="mb-5 text-center">
+                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-4 px-8">
+                                <router-link to="/" target="_blank" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                    <a href="https://365stripegateway-demo.azurewebsites.net/pay?refid=L3N5W2" target="_blank" style="text-decoration: none">
+                                        <img class="icon" src="images/icon-mastercard-logo.png"> 
+                                        <img class="icon" src="images/icon-visa-logo.png"> 
+                                        <br>
+                                        <span class="brand-fg-dark">Credit/Debit Card</span>
+                                    </a>
+                                    <br>
+                                </router-link>
+                            </div>
+                            <div class="col-4 px-8">
+                                <router-link to="/" target="_blank" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                    <a href="https://365stripegateway-demo.azurewebsites.net/pay?refid=L3N5W2" target="_blank" style="text-decoration: none">
+                                        <img class="icon" src="images/icon-direct-debit.png"> 
+                                        <br>
+                                        <span class="brand-fg-dark">Direct Debit</span>
+                                    </a>
+                                    <br>
+                                </router-link>
+                            </div>
+                            <div class="col-4 px-8">
+                                <router-link to="/" target="_blank" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                    <a href="https://365stripegateway-demo.azurewebsites.net/pay?refid=L3N5W2" target="_blank" style="text-decoration: none">
+                                    <img class="icon" src="images/icon-google-pay.png"> 
+                                    <img class="icon" src="images/icon-apple-pay.png"> 
+                                        <br>
+                                        <span class="brand-fg-dark">Mobile Wallet</span>
+                                    </a>
+                                    <br>
+                                </router-link>
+                            </div>
+                        </div>
+                        <div class="col-0 px-8">
+                            <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                <img class="icon" src="images/icon-home.png"> 
+                                <br>
+                                <span class="brand-fg-dark">Return to the main menu</span>
+                            </router-link>
+                        </div>
+                    </div>
+                `
+            };
+
+            const PayTotalFuturePage = {
+                template: `
+                    <div>
+                        <div class="mb-5 text-center">
+                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
+                        </div>
+                        <label class="mt-5">When would you like to pay?</label>
+
+                        <div class="mt-3">
+                            <label>Choose Date:</label>
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "Bottom Right",
+                        startDate: '0d',
+                        autoclose: true
+                    });
+                }
+            };
+
+            const FinancialHardshipAssistance = {
+                template: `
+                    <div>
+                        
+                        <h3 class="text-center brand-fg-dark brand-title">Financial Hardship Assistance</h3>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="accountNumber" class="form-label">Account Number</label>
+                                        <input type="text" class="form-control" id="accountNumber">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Date of Birth</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Contact Number</label>
+                                        <input type="text" class="form-control" id="address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="income" class="form-label">Email Address</label>
+                                        <input type="text" class="form-control" id="income">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="duration" class="form-label">Financial Details</label>
+                                        <input type="text" class="form-control" id="duration">
+                                    </div> 
+                                    <div class="mb-3">
+                                        <label for="duration" class="form-label">Duration of Hardship</label>
+                                        <input type="text" class="form-control" id="duration">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reason" class="form-label">Reason for Hardship</label>
+                                        <textarea class="form-control" id="reason" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="terms" required>
+                                        <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/financial-hardship-assistance-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `
+            };
+
+            const FinancialHardshipAssistanceConfirmation = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <label>Your request has been submitted and will be actioned by the next available person.</label>
+                        </div>
+                        <div class="col-0 px-8">
+                            <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                <img class="icon" src="images/icon-home.png"> 
+                                <br>
+                                <span class="brand-fg-dark">Return to the main menu</span>
+                            </router-link>
+                        </div>
+                    </div>
+                `
+            };
+
+            const RequestCallBack = {
+                template: `
+                    <div>
+                        
+                        <h3 class="text-center brand-fg-dark brand-title">Request a Callback</h3>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <form>
+                                    <div class="mt-3">
+                                        <label>Choose Date</label>
+                                        <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <label>Choose Time</label>
+                                        <input type="text" class="form-control" v-model="selectedTime" id="timepicker">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="details" class="form-label">Details</label>
+                                        <textarea class="form-control" id="details" rows="3"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        autoclose: true
+                    });
+                }
+            };
+
+            const RequestCallBackConfirmation = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <label>Your request has been submitted and will be actioned by the next available person.</label>
+                        </div>
+                        <div class="col-0 px-8">
+                            <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                                <img class="icon" src="images/icon-home.png"> 
+                                <br>
+                                <span class="brand-fg-dark">Return to the main menu</span>
+                            </router-link>
+                        </div>
+                    </div>
+
+                `
+            };
+
+            const PaymentGatewayPage = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <label>Your request has been submitted and will be actioned by the next available person.</label>
+                        </div>
+
+                    </div>
+                `
+            };
+
+            const ChoosePaymentFrequency = {
+                template: `
+                    <div class="text-center">
+                        <div class="mb-3 text-center">
+                            <label>Please choose your payment frequency:</label>
+                        </div>
+                        <div class="dropdown px-5 mx-4">
+                            <button class="btn btn-light w-100 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ buttonText }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#" @click="updateButtonText('Weekly')">Weekly</a></li>
+                                <li><a class="dropdown-item" href="#" @click="updateButtonText('Fornightly')">Fornightly</a></li>
+                                <li><a class="dropdown-item" href="#" @click="updateButtonText('Monthly')">Monthly</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-5 mb-3 text-center">
+                            <label>How much would you like to pay:</label>
+                        </div>
+
+                        <div class="px-5 mx-4">
+                            <label for="customRange" class="brand-fg-dark form-label fw-bold">$ {{ payValueFormatted }}</label>
+                            <input id="range" type="range" :value="payValue" min="0" max="100" value="1" class="w-100">
+                            <span class="float-start">Min</span>
+                            <span class="float-end">Max</span>
+                        </div>
+
+                        <div class="mt-5 mb-3 text-center">
+                            <label>Please choose when you'd like your payment plan to start:</label>
+                        </div>
+
+                        <div class="px-5 mx-4">
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                </div>
+            `,
+            data() {
+                const d = new Date()
+                const day = d.getDate()
+                const month = d.getMonth()+1
+                const year = d.getFullYear()
+                return {
+                    buttonText: 'Weekly', // Initial text of the dropdown button
+                    payValue: 23,
+                    payMin:1,
+                    payMax:100,
+                    selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year,
+                    elements:{
+                        sliderEl: null
+                    }
+                };
+            },
+            mounted(){
+                var self = this;
+                $('.dropdown-toggle').dropdown();
+                $('#datepicker').datepicker({
+                    format: 'dd/mm/yyyy', // Adjust the format as needed
+                    todayBtn: "linked",
+                    todayHighlight: true,
+                    orientation: "right",
+                    startDate: '0d',
+                    autoclose: true
+                });
+
+                self.elements.sliderEl = document.querySelector("#range");
+
+                const sliderEventListener = (event) => {
+                    const sliderValue = event.target.value; 
+                    self.payValue = sliderValue;
+                    self.updateSliderColor(sliderValue);
+                };
+
+                self.elements.sliderEl.addEventListener("input", sliderEventListener);
+
+                self.updateSliderColor(self.payValue);
+            },
+            methods: {
+                // Method to update the text of the dropdown button
+                updateButtonText(text) {
+                    this.buttonText = text;
+                },
+
+                updateSliderColor(sliderValue){
+                    const progress = (sliderValue / this.payMax) * 100;
+                    this.elements.sliderEl.style.background = `linear-gradient(to right, #054365 ${progress}%, #ccc ${progress}%)`;
+                }
+
+            },
+            computed:{
+                payValueFormatted(){
+                    return parseFloat(this.payValue).toFixed(2);
+                }
+            }
+        };
+        
+            const PaymentSchedule = {
+                template: `
+                    <div>
+                        
+                        <div class="mt-4 text-center">
+                            <h3 class="text-center brand-fg-dark brand-title">Payment Schedule</h3>
+                            <span>Your first payment of $20 will be included in your statement with a payment date of 10th October 2024</span>
+                        </div>
+                        <div class="card mt-3 mb-3">
+                            <div class="card-body">
+                                <label class="">Fortnightly Payments</label>
+                                <div class="mt-2">
+                                    <div v-for="(paymentSchedule, index) in paymentSchedules" :class="[ 'payment-row', 'row', 'mb-2', {'with-line': index !== paymentSchedules.length - 1 } ]">
+                                        <div class="circle">
+                                        </div>
+                                        <div class="px-5 col-8">
+                                            <span class="fw-500">{{paymentSchedule.date}}</span>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <span class="fw-500">$ {{paymentSchedule.amount.toFixed(2)}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row px-3 mb-2">
+                                <div class="col-8">
+                                    <label class="">Total Cost:</label>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <label class="">$ {{total.toFixed(2)}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    return {
+                        paymentSchedules:[
+                            { date: '10th October, 2024', amount: 20, },
+                            { date: '24th October, 2024', amount: 20, },
+                            { date: '7th November, 2024', amount: 20, },
+                            { date: '21st November, 2024', amount: 20, },
+                            { date: '5th December, 2024', amount: 20, },
+                            { date: '19th December, 2024', amount: 20, },
+                            { date: '2nd January, 2025', amount: 20, },
+                            { date: '16th January, 2025', amount: 20, },
+                        ],
+                        total: 160
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        autoclose: true
+                    });
+                }
+            };
+        // Define routes
+        const routes = [
+            { path: '/', component: HomePage },
+            { path: '/payment-option', component: PaymentOptionPage },
+            { path: '/payment-plan', component: PaymentPlanPage },
+            { path: '/preferred-payment-date', component: PreferredPaymentDatePage },
+            { path: '/payment-plan-calculation', component: PaymentPlanCalculationPage },
+            { path: '/payment-plan-confirmation', component: PaymentPlanConfirmation },
+
+            { path: '/pay-total', component: PayTotalAmountNowPage },
+            { path: '/pay-total-future', component: PayTotalFuturePage },
+
+            { path: '/assistance-question', component: AssistanceQuestionPage },
+            { path: '/financial-hardship-assistance', component: FinancialHardshipAssistance },
+            { path: '/financial-hardship-assistance-confirmation', component: FinancialHardshipAssistanceConfirmation },
+            { path: '/request-call-back', component: RequestCallBack },
+            { path: '/request-call-back-confirmation', component: RequestCallBackConfirmation },
+            { path: '/payment-gateway', component: PaymentGatewayPage },
+            { path: '/choose-payment-frequency', component: ChoosePaymentFrequency },
+            { path: '/payment-schedule', component: PaymentSchedule }
+        ];
+
+        // Create router instance
+        const router = new VueRouter({
+            routes
+        });
+
+        // Create and mount the root Vue instance
+        new Vue({
+            router,
+            beforeCreate() {
+                // Redirect to the home page when the app loads
+                this.$router.push('/payment-schedule');
+            }
+        }).$mount('#app'); 
+    });
+</script>
+
+</body>
+</html>

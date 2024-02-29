@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js with Vue Router and Bootstrap - Single HTML</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        .brand-bg{
+            background-color: #FAD806;
+        }
+
+        .brand-fg{
+            color: #FAD806;
+        }
+
+        .brand-fg-dark{
+            color: #054365;
+        }
+
+        .brand-title{
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .no-border{
+            border:none;
+        }
+
+        .brand-img{
+            width: 14em;
+        }
+
+        .text-center{
+            text-align: center;
+        }
+
+        label{
+            font-weight: 400;
+            font-size: 1.3rem;
+        }
+
+        .btn{
+            box-shadow: 0 .125rem .25rem rgb(0 0 0 / 34%) !important;
+            font-weight: 500;
+        }
+
+        .btn span{
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .btn img.icon{
+            width: 3rem;
+            padding-top: 11px;
+            padding-bottom: 13px;
+        }
+
+        .btn-primary{
+            background-color: #054365;
+            border: 1px solid #054365;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app" class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card no-border">
+                <div class="text-center mb-3">
+                    <img class="brand-img" src="images/365-collect-logo.png">
+                </div>
+                <div class="card-body">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<!-- Vue Router -->
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.3/dist/vue-router.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Datepicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
+<script>
+    // Define components for each page
+    const HomePage = {
+        template: `
+            <div class="text-center">
+                <div class="mb-4">
+                    <label>Hi shane,</label>
+                    <br>
+                    <label>how would you like to address your existing debt?</label>
+                </div>
+                <div class="mb-4">
+                    <h1 class="brand-fg-dark fw-bold">$160.00</h1>
+                </div>
+                <div class="px-5">
+                    <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Pay Total Amount Now</router-link>
+                    <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Pay Total In a Future Date</router-link>
+                    <router-link to="/payment-plan" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Payment Plan Options</router-link>
+                    <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Discuss Other Options</router-link>
+                </div>
+            </div>
+        `
+    };
+
+    const PaymentPlanPage = {
+        template: `
+            <div>
+                
+                <h3 class="text-center brand-fg-dark brand-title">Payment Plan</h3>
+                <p class="text-center">choose a payment plan that works best for you.</p>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Weekly</h4>
+                                <span>Interest: 0% APR (+$0.00)</span>
+                            </div>
+                            <div class="col-6">
+                                <h4>$20/week</h4>
+                                <span>Total: $200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Fortnightly</h4>
+                                <span>Interest: 15% APR (+$30.00)</span>
+                            </div>
+                            <div class="col-6">
+                                <h4>$20/fortnightly</h4>
+                                <span>Total: $230</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Monthly</h4>
+                                <span>Interest: 30% APR (+$60.00)</span>
+                            </div>
+                            <div class="col-6">
+                                <h4>$20/month</h4>
+                                <span>Total: $260</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6 px-3">
+                        <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                    </div>
+                    <div class="col-6 px-3">
+                        <router-link to="/preffered-payment-date" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                    </div>
+                </div>
+            </div>
+        `
+    };
+
+    const PreferredPaymentDatePage = {
+        template: `
+            <div>
+                <label class="mt-5">How would you like to address your existing debt?</label>
+
+                <div class="mt-3">
+                    <label>Choose Date:</label>
+                    <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6 px-3">
+                        <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                    </div>
+                    <div class="col-6 px-3">
+                        <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                    </div>
+                </div>
+            </div>
+        `,
+        data() {
+            return {
+                selectedDate: null
+            };
+        },
+        mounted() {
+            $('#datepicker').datepicker({
+                format: 'mm/dd/yyyy', // Adjust the format as needed
+                autoclose: true
+            });
+        }
+    };
+
+    const PaymentPlanConfirmation = {
+        template: `
+            <div class="text-center">
+                <div class="mb-4">
+                    <label>Thank you for setting up your payment plan. An email will be sent to customer@emailaddress.com with the details of your payment plan.</label>
+                    <br>
+                    <br>
+                    <label>Let us know if you require any further assistance.</label>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6 px-5">
+                        <router-link to="/assistance-question" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                            <img class="icon" src="images/icon-mobile-info.png"> 
+                            <br>
+                            <span class="brand-fg-dark">I need further assistance</span>
+                            <br>
+                        </router-link>
+                    </div>
+                    <div class="col-6 px-5">
+                        <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                            <img class="icon" src="images/icon-hand.png"> 
+                            <br>
+                            <span class="brand-fg-dark">I don&apos;t need further assistance</span>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        `
+    };
+
+    const AssistanceQuestionPage = {
+        template: `
+            <div class="text-center">
+                <div class="mb-5">
+                    <label>How can we assist you?</label>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6 px-5">
+                        <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                            <img class="icon" src="images/icon-mobile-info.png"> 
+                            <br>
+                            <span class="brand-fg-dark">I'd like to discuss my options with someone</span>
+                            <br>
+                        </router-link>
+                    </div>
+                    <div class="col-6 px-5">
+                        <router-link to="/financial-hardship-assistance" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                            <img class="icon" src="images/icon-hand.png"> 
+                            <br>
+                            <span class="brand-fg-dark">Financial Hardship Assistance</span>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        `
+    };
+
+    const FinancialHardshipAssistance = {
+        template: `
+            <div>
+                
+                <h3 class="text-center brand-fg-dark brand-title">Financial Hardship Assistance</h3>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="accountNumber" class="form-label">Account Number</label>
+                                <input type="text" class="form-control" id="accountNumber">
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address">
+                            </div>
+                            <div class="mb-3">
+                                <label for="income" class="form-label">Income</label>
+                                <input type="text" class="form-control" id="income">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Duration of Hardship</label>
+                                <input type="text" class="form-control" id="duration">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reason" class="form-label">Reason for Hardship</label>
+                                <textarea class="form-control" id="reason" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6 px-3">
+                        <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                    </div>
+                    <div class="col-6 px-3">
+                        <router-link to="/financial-hardship-assistance-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                    </div>
+                </div>
+            </div>
+        `
+    };
+
+    const FinancialHardshipAssistanceConfirmation = {
+        template: `
+            <div class="text-center">
+                <div class="mb-4">
+                    <label>Your request has been submitted and will be actioned by the next available person.</label>
+                </div>
+            </div>
+        `
+    };
+
+
+    // Define routes
+    const routes = [
+        { path: '/', component: HomePage },
+        { path: '/payment-plan', component: PaymentPlanPage },
+        { path: '/preffered-payment-date', component: PreferredPaymentDatePage },
+        { path: '/payment-plan-confirmation', component: PaymentPlanConfirmation },
+        { path: '/assistance-question', component: AssistanceQuestionPage },
+        { path: '/financial-hardship-assistance', component: FinancialHardshipAssistance },
+        { path: '/financial-hardship-assistance-confirmation', component: FinancialHardshipAssistanceConfirmation }
+    ];
+
+    // Create router instance
+    const router = new VueRouter({
+        routes
+    });
+
+    // Create and mount the root Vue instance
+    new Vue({
+        router,
+        beforeCreate() {
+            // Redirect to the home page when the app loads
+            this.$router.push('/');
+        }
+    }).$mount('#app');
+</script>
+
+</body>
+</html>

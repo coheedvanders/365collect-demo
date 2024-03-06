@@ -924,7 +924,7 @@
                     <label class="mb-3 mt-3">This is your new payment schedule</label>
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <label class="">Weekly Payments</label>
+                            <label class="">{{scheduleType}} Payments</label>
                             <div class="mt-2">
                                 <div v-for="(paymentSchedule, index) in paymentSchedules" :class="[ 'payment-row', 'row', 'mb-2', {'with-line': index !== paymentSchedules.length - 1 } ]">
                                     <div class="circle">
@@ -961,11 +961,14 @@
             `,
             data() {
                 return {
-                    paymentSchedules:[]
+                    paymentSchedules:[],
+                    scheduleType: ''
                 };
             },
             mounted(){
                 const scheduleType = this.$route.query.scheduleType;
+
+                this.scheduleType = scheduleType;
                 if(scheduleType == "Weekly"){
                     this.paymentSchedules = [
                         { date: '11th March, 2024', amount: 20, },

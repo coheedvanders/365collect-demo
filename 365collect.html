@@ -8,7 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Datepicker CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
+
     <style>
         .brand-bg{
             background-color: #FAD806;
@@ -24,7 +26,7 @@
 
         .brand-title{
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 1rem;
         }
 
         .no-border{
@@ -41,7 +43,7 @@
 
         label{
             font-weight: 400;
-            font-size: 1.3rem;
+            font-size: 1rem;
         }
 
         .btn{
@@ -51,7 +53,7 @@
 
         .btn span{
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .btn img.icon{
@@ -155,8 +157,10 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card no-border">
-                    <div class="text-center mb-3">
-                        <img class="brand-img" src="images/365-collect-logo.png">
+                    <div class="text-center mb-2">
+                        <router-link to="/">
+                            <img class="brand-img" src="images/365-collect-logo.png">
+                        </router-link>
                     </div>
                     <div class="card-body">
                         <router-view></router-view>
@@ -180,26 +184,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
 
     <script>
         $(document).ready(function() {
         // Define components for each page
             const HomePage = {
                 template: `
-                    <div class="text-center">
-                        <div class="mb-4">
-                            <label>Hi Shane,</label>
-                            <br>
-                            <label>how would you like to address your existing debt?</label>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="brand-fg-dark fw-bold">$160.00</h1>
+                    <div class="text-center px-6 mx-4">
+                        <div class="mb-4 mt-3">
+                            <h5 class="brand-fg-dark fw-bold">Overdue Amount $160.00</h5>
                         </div>
                         <div class="px-5">
-                            <router-link to="/pay-total" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Pay Total Amount Now</router-link>
-                            <router-link to="/pay-total-future" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Pay Total In a Future Date</router-link>
-                            <router-link to="/payment-option" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Payment Plan Options</router-link>
-                            <router-link to="/assistance-question" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Discuss Other Options</router-link>
+                            <router-link to="/pay-total" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Pay Total Amount Now</router-link>
+                            <router-link to="/pay-total-future" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Pay Total In a Future Date</router-link>
+                            <router-link to="/payment-option" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Payment Plan Options</router-link>
+                            <router-link to="/further-assistance" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Discuss Other Options</router-link>
                         </div>
                     </div>
                 `
@@ -207,9 +209,9 @@
 
             const PaymentOptionPage = {
                 template: `
-                    <div class="text-center">
+                    <div class="text-center px-5 mx-4">
                         <div class="row mt-5">
-                            <div class="col-6 px-5">
+                            <div class="col-6 px-2">
                                 <router-link to="/payment-plan" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
                                     <img class="icon" src="images/icon-calculator.png"> 
                                     <br>
@@ -217,8 +219,8 @@
                                     <br>
                                 </router-link>
                             </div>
-                            <div class="col-6 px-5">
-                                <router-link to="/payment-plan-calculation" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                            <div class="col-6 px-2">
+                                <router-link to="/payment-plan-calculation" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
                                     <img class="icon" src="images/icon-idea.png"> 
                                     <br>
                                     <span class="brand-fg-dark">Let me calculate</span>
@@ -231,52 +233,50 @@
             
             const PaymentPlanPage = {
                 template: `
-                    <div>
-                        <h3 class="text-center brand-fg-dark brand-title">Payment Plan</h3>
-                        <div class="mb-5 text-center">
-                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
-                        </div>
-                        <div class="mb-5 text-center">
+                    <div class="text-center px-6 mx-4">
+                        <div class="mt-3 mb-3">
                             <label>Please choose a payment plan that works best for you</label>
                         </div>
 
                         <div class="card-body">
-                            <router-link to="/preferred-payment-date" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                            <router-link to="/preferred-payment-date-w" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h4>Weekly</h4>
-                                        <span>Interest: 0% APR (+$0.00)</span>
+                                        <h6 class="fs-6">Weekly<p></p>Interest: 0% APR (+$0.00)</h6>
                                     </div>
                                     <div class="col-6">
-                                        <h4>$20/week</h4>
-                                        <span>Total: $160</span>
+                                        <h6>8 x $20/week <p></p>Total: $160 </h6>
+
                                     </div>
                                 </div>
                             </router-link>
 
-                            <router-link to="/preferred-payment-date" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                            <router-link to="/preferred-payment-date-f" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
 
                                 <div class="row">
                                     <div class="col-6">
-                                        <h4>Fortnightly</h4>
-                                        <span>Interest: 15% APR (+$30.00)</span>
+                                        <h6>Fortnightly<p></p>Interest: 15% APR (+$30.00)</h6>
                                     </div>
                                     <div class="col-6">
-                                        <h4>$47.50/fortnight</h4>
-                                        <span>Total: $190</span>
+                                        <h6>4 x $47.50/fortnight<p></p>Total: $190</h6>
                                     </div>
                                 </div>
                             </router-link>
 
-                            <router-link to="/preferred-payment-date" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                            <router-link to="/preferred-payment-date-m" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h4>Monthly</h4>
-                                        <span>Interest: 30% APR (+$60.00)</span>
+                                        <h6>Monthly<p></p>Interest: 30% APR (+$60.00)</h6>
                                     </div>
                                     <div class="col-6">
-                                        <h4>$55/month</h4>
-                                        <span>Total: $220</span>
+                                        <h6>4 x $55/month<p></p>Total: $220</h6>
+                                    </div>
+                                </div>
+                            </router-link>
+                            <router-link to="/payment-plan-calculation" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>Let me calculate</h6>
                                     </div>
                                 </div>
                             </router-link>
@@ -287,76 +287,18 @@
 
             const PreferredPaymentDatePage = {
                 template: `
-                    <div>
+                    <div class="text-center px-5 mx-4">
+                        <label class="mb-4 mt-3">When would you like your payment plan to start?</label>
                         <div class="mt-3">
-                            <label>Please choose when you'd like your payment plan to start</label>
                             <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
                         </div>
 
                         <div class="row mt-5">
                             <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
                             </div>
                             <div class="col-6 px-3">
-                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
-                            </div>
-                        </div>
-                    </div>
-                `,
-                data() {
-                    const d = new Date()
-                    const day = d.getDate()
-                    const month = d.getMonth()+1
-                    const year = d.getFullYear()
-                    return {
-                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
-                    };
-                },
-
-                mounted() {
-                    $('#datepicker').datepicker({
-                        format: 'dd/MM/yyyy', // Adjust the format as needed
-                        todayBtn: "linked",
-                        todayHighlight: true,
-                        orientation: "right",
-                        startDate: '0d',
-                        autoclose: true
-                    });
-                }
-            };
-
-            const PaymentPlanCalculationPage = {
-                template: `
-                    <div>
-                        <h3 class="text-center brand-fg-dark brand-title">Payment Plan Calculation</h3>
-                        <div class="mb-5 text-center">
-                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
-                        </div>
-
-                        <div class="mt-3">
-                            <label>Please choose your payment frequency</label>
-                        </div>
-                        <div class="mt-3">
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Frequency</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Weekly</a>
-                                    <a class="dropdown-item" href="#">Fortnightly</a>
-                                    <a class="dropdown-item" href="#">Monthly</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <label>Please choose when you'd like your payment plan to start</label>
-                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
-                        </div>
-
-                        <div class="row mt-5">
-                            <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
-                            </div>
-                            <div class="col-6 px-3">
-                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                                <router-link to="/payment-schedule" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
                             </div>
                         </div>
                     </div>
@@ -378,31 +320,156 @@
                         todayHighlight: true,
                         orientation: "right",
                         startDate: '0d',
+                        endDate: '+7d',
                         autoclose: true
                     });
                 }
             };
 
+            const PreferredPaymentDatePageW = {
+                template: `
+                    <div class="text-center px-5 mx-4">
+                        <label class="mb-4 mt-3">When would you like your payment plan to start?</label>
+                        <div class="mt-3">
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-schedule-w" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        endDate: '+7d',
+                        autoclose: true
+                    });
+                }
+            };
+
+            const PreferredPaymentDatePageF = {
+                template: `
+                    <div class="text-center px-5 mx-4">
+                        <label class="mb-4 mt-3">When would you like your payment plan to start?</label>
+                        <div class="mt-3">
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-schedule-f" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        endDate: '+7d',
+                        autoclose: true
+                    });
+                }
+            };
+
+            const PreferredPaymentDatePageM = {
+                template: `
+                    <div class="text-center px-5 mx-4">
+                        <label class="mb-4 mt-3">When would you like your payment plan to start?</label>
+                        <div class="mt-3">
+                            <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-schedule-m" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    const d = new Date()
+                    const day = d.getDate()
+                    const month = d.getMonth()+1
+                    const year = d.getFullYear()
+                    return {
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                    };
+                },
+
+                mounted() {
+                    $('#datepicker').datepicker({
+                        format: 'dd/mm/yyyy', // Adjust the format as needed
+                        todayBtn: "linked",
+                        todayHighlight: true,
+                        orientation: "right",
+                        startDate: '0d',
+                        endDate: '+7d',
+                        autoclose: true
+                    });
+                }
+            };
+
+
             const PaymentPlanConfirmation = {
                 template: `
-                    <div class="text-center">
-                        <div class="mb-4">
-                            <label>Thank you for setting up your payment plan, Shane. An email will be sent to shane@emailaddress.com with the details of your payment plan.</label>
+                    <div class="text-center px-5 mx-4">
+                        <div class="mt-3">
+                            <label>Your payment plan has been setup. You will receive an email with the details of your payment plan.</label>
                             <br>
                             <br>
                             <label>Let us know if you require any further assistance.</label>
                         </div>
 
                         <div class="row mt-5">
-                            <div class="col-6 px-5">
-                                <router-link to="/assistance-question" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
+                            <div class="col-6 px-2">
+                                <router-link to="/further-assistance" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
                                     <img class="icon" src="images/icon-mobile-info.png"> 
                                     <br>
                                     <span class="brand-fg-dark">I need further assistance</span>
                                     <br>
                                 </router-link>
                             </div>
-                            <div class="col-6 px-5">
+                            <div class="col-6 px-2">
                                 <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
                                     <img class="icon" src="images/icon-hand.png"> 
                                     <br>
@@ -414,15 +481,15 @@
                 `
             };
 
-            const AssistanceQuestionPage = {
+            const FurtherAssistancePage = {
                 template: `
-                    <div class="text-center">
-                        <div class="mb-5">
+                    <div class="text-center px-5 mx-4">
+                        <div class="mt-3 mb-4">
                             <label>How can we assist you?</label>
                         </div>
 
                         <div class="row mt-5">
-                            <div class="col-6 px-5">
+                            <div class="col-6 px-2">
                                 <router-link to="/request-call-back" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
                                     <img class="icon" src="images/icon-mobile-info.png"> 
                                     <br>
@@ -430,7 +497,7 @@
                                     <br>
                                 </router-link>
                             </div>
-                            <div class="col-6 px-5">
+                            <div class="col-6 px-2">
                                 <router-link to="/financial-hardship-assistance" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
                                     <img class="icon" src="images/icon-hand.png"> 
                                     <br>
@@ -444,14 +511,11 @@
 
             const PayTotalAmountNowPage = {
                 template: `
-                    <div class="text-center">
-                        <div class="mb-5">
-                            <label>Please choose your payment method</label>
+                    <div class="text-center  px-5 mx-1">
+                        <div class="mt-3 mb-4">
+                            <label>How would you like to pay?</label>
                         </div>
-                        <div class="mb-5 text-center">
-                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
-                        </div>
-                        <div class="row mt-5">
+                        <div class="row mt-2">
                             <div class="col-4 px-8">
                                 <router-link to="/" target="_blank" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow">
                                     <a href="https://365stripegateway-demo.azurewebsites.net/pay?refid=L3N5W2" target="_blank" style="text-decoration: none">
@@ -485,36 +549,25 @@
                                 </router-link>
                             </div>
                         </div>
-                        <div class="col-0 px-8">
-                            <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
-                                <img class="icon" src="images/icon-home.png"> 
-                                <br>
-                                <span class="brand-fg-dark">Return to the main menu</span>
-                            </router-link>
-                        </div>
                     </div>
                 `
             };
 
             const PayTotalFuturePage = {
                 template: `
-                    <div>
-                        <div class="mb-5 text-center">
-                            <label class="brand-fg-dark fw-bold">Amount overdue $160.00</label>
-                        </div>
-                        <label class="mt-5">When would you like to pay?</label>
+                    <div class="text-center px-5 mx-4">
+                        <label class="mt-3">When would you like to pay?</label>
 
                         <div class="mt-3">
-                            <label>Choose Date:</label>
                             <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
                         </div>
 
                         <div class="row mt-5">
                             <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
                             </div>
                             <div class="col-6 px-3">
-                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
                             </div>
                         </div>
                     </div>
@@ -536,6 +589,7 @@
                         todayHighlight: true,
                         orientation: "Bottom Right",
                         startDate: '0d',
+                        endDate: '+7d',
                         autoclose: true
                     });
                 }
@@ -543,52 +597,90 @@
 
             const FinancialHardshipAssistance = {
                 template: `
-                    <div>
-                        
-                        <h3 class="text-center brand-fg-dark brand-title">Financial Hardship Assistance</h3>
-
+                    <div class="px-5 mx-4">
+                        <label class="mb-3 mt-3">Please enter the details of you financial hardhsip request below</label>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <form>
                                     <div class="mb-3">
-                                        <label for="accountNumber" class="form-label">Account Number</label>
-                                        <input type="text" class="form-control" id="accountNumber">
+                                        <label for="employment" class="form-label">Reason for Hardship</label>
+                                 <div class="dropdown">
+                                        <button class="btn btn-light w-100 dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ buttonText2 }}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Medical')">Medical</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Loss of income')">Loss of income</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Reduced income')">Reduced income</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Separation')">Separation</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Overcommitment')">Overcommitment</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Natural disaster')">Natural disaster</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Other')">Other</a></li>
+                                        </ul>
+                                        </div>
+                                    <div class="mb-3 mt-3">
+                                        <label for="reason" class="form-label">Details of Hardship</label>
+                                        <textarea class="form-control" id="reason" rows="2"></textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Full Name</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Date of Birth</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Address</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label">Contact Number</label>
-                                        <input type="text" class="form-control" id="address">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="income" class="form-label">Email Address</label>
-                                        <input type="text" class="form-control" id="income">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="duration" class="form-label">Financial Details</label>
-                                        <input type="text" class="form-control" id="duration">
-                                    </div> 
+
                                     <div class="mb-3">
                                         <label for="duration" class="form-label">Duration of Hardship</label>
                                         <input type="text" class="form-control" id="duration">
+                                    </div> 
+                     <!--               
+                                    <div class="mb-3">
+                                        <label for="pay" class="form-label">How much can you afford to pay?</label>
+                                        <input type="text" class="form-control" id="pay">
+                                    </div> 
+                                    <div class="mb-3">
+                                        <label for="frequency" class="form-label">Frequency</label><br>
+                                        <div class="dropdown">
+                                        <button class="btn btn-light w-100 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ buttonText1 }}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText('Weekly')">Weekly</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText('Fornightly')">Fornightly</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText('Monthly')">Monthly</a></li>
+                                        </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="employment" class="form-label">Type of employment</label>
+                                 <div class="dropdown">
+                                        <button class="btn btn-light w-100 dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ buttonText2 }}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Permanent full time')">Permanent full time</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Permanent part time')">Permanent part time</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Self-employed')">Self-employed </a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Casual')">Casual</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Contractor')">Contractor</a></li>
+                                        <li><a class="dropdown-item" href="#" @click="updateButtonText2('Unemployed')">Unemployed</a></li>
+                                        </ul>
+                                        </div>
+                                    </div> -->
+                                    <div class="mb-3">
+                                        <label for="income" class="form-label">Income</label>
+                                        <input type="text" class="form-control" id="income">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="reason" class="form-label">Reason for Hardship</label>
-                                        <textarea class="form-control" id="reason" rows="3"></textarea>
+                                        <label for="liabilities" class="form-label">Liabilities</label>
+                                        <input type="text" class="form-control" id="liabilities">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="expenditure" class="form-label">Monthly Expenditure</label>
+                                        <input type="text" class="form-control" id="expenditure">
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="declare" required>
+                                        <label class="form-check-label" for="declare">I declare that details in this application are true.</label>
                                     </div>
                                     <div class="form-group form-check">
                                         <input type="checkbox" class="form-check-input" id="terms" required>
-                                        <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+                                        <label class="form-check-label" for="terms">I agree to the terms and conditions.</label>
                                     </div>
                                 </form>
                             </div>
@@ -596,28 +688,35 @@
 
                         <div class="row mt-5">
                             <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
                             </div>
                             <div class="col-6 px-3">
-                                <router-link to="/financial-hardship-assistance-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                                <router-link to="/financial-hardship-assistance-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
                             </div>
                         </div>
                     </div>
-                `
+                `,
+                data() {
+                    return {
+                        buttonText1: 'Weekly', // Initial text of the dropdown button
+                        buttonText2: 'Please choose'
+                    };
+                },
+                methods: {
+                    // Method to update the text of the dropdown button
+                    updateButtonText(text) {
+                        this.buttonText1 = text;
+                    },
+                    updateButtonText2(text) {
+                        this.buttonText2 = text;
+                    }
+                },
             };
-
             const FinancialHardshipAssistanceConfirmation = {
                 template: `
-                    <div class="text-center">
+                    <div class="text-center px-5 mx-4">
                         <div class="mb-4">
                             <label>Your request has been submitted and will be actioned by the next available person.</label>
-                        </div>
-                        <div class="col-0 px-8">
-                            <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
-                                <img class="icon" src="images/icon-home.png"> 
-                                <br>
-                                <span class="brand-fg-dark">Return to the main menu</span>
-                            </router-link>
                         </div>
                     </div>
                 `
@@ -625,10 +724,8 @@
 
             const RequestCallBack = {
                 template: `
-                    <div>
-                        
-                        <h3 class="text-center brand-fg-dark brand-title">Request a Callback</h3>
-
+                    <div class="px-5 mx-4">
+                        <label class="mb-3 mt-3">Please enter the details below</label>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <form>
@@ -637,10 +734,11 @@
                                         <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
                                     </div>
 
-                                    <div class="mt-3">
+                                    <div class="mt-3 ">
                                         <label>Choose Time</label>
-                                        <input type="text" class="form-control" v-model="selectedTime" id="timepicker">
+                                        <input type="time" class="form-control" v-model="currentTime">
                                     </div>
+
                                     <div class="mb-3">
                                         <label for="details" class="form-label">Details</label>
                                         <textarea class="form-control" id="details" rows="3"></textarea>
@@ -651,10 +749,10 @@
 
                         <div class="row mt-5">
                             <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
                             </div>
                             <div class="col-6 px-3">
-                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
                             </div>
                         </div>
                     </div>
@@ -665,7 +763,8 @@
                     const month = d.getMonth()+1
                     const year = d.getFullYear()
                     return {
-                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year
+                        selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year,
+                        currentTime: ''
                     };
                 },
 
@@ -678,45 +777,35 @@
                         startDate: '0d',
                         autoclose: true
                     });
+
+                    // Get the current time
+                    const now = new Date();
+                    // Format the current time to HH:MM format
+                    const currentTime = now.toTimeString().slice(0, 5);
+                    // Set the value of currentTime data property to the current time
+                    this.currentTime = currentTime;
                 }
             };
 
             const RequestCallBackConfirmation = {
                 template: `
-                    <div class="text-center">
+                    <div class="text-center px-5 mx-4">
                         <div class="mb-4">
                             <label>Your request has been submitted and will be actioned by the next available person.</label>
-                        </div>
-                        <div class="col-0 px-8">
-                            <router-link to="/" class="btn btn-rounded btn-light d-block w-100 mb-3 shadow" style="height:92%;">
-                                <img class="icon" src="images/icon-home.png"> 
-                                <br>
-                                <span class="brand-fg-dark">Return to the main menu</span>
-                            </router-link>
                         </div>
                     </div>
 
                 `
             };
 
-            const PaymentGatewayPage = {
+            const PaymentPlanCalculationPage = {
                 template: `
-                    <div class="text-center">
-                        <div class="mb-4">
-                            <label>Your request has been submitted and will be actioned by the next available person.</label>
-                        </div>
+                    <div class="text-center px-5 mx-4">
 
-                    </div>
-                `
-            };
-
-            const ChoosePaymentFrequency = {
-                template: `
-                    <div class="text-center">
-                        <div class="mb-3 text-center">
-                            <label>Please choose your payment frequency:</label>
+                        <div class="text-center">
+                            <label class="mt-3 mb-3">How frequently can you make payments?</label>
                         </div>
-                        <div class="dropdown px-5 mx-4">
+                        <div class="dropdown">
                             <button class="btn btn-light w-100 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ buttonText }}
                             </button>
@@ -727,31 +816,31 @@
                             </ul>
                         </div>
 
-                        <div class="mt-5 mb-3 text-center">
-                            <label>How much would you like to pay:</label>
+                        <div class="mt-4 mb-3">
+                            <label class="mt-3">How much would you like to pay?</label>
                         </div>
 
-                        <div class="px-5 mx-4">
+                        <div class="mt-3 mb-3">
                             <label for="customRange" class="brand-fg-dark form-label fw-bold">$ {{ payValueFormatted }}</label>
-                            <input id="range" type="range" :value="payValue" min="0" max="100" value="1" class="w-100">
+                            <input id="range" type="range" :value="payValue" min="0" max="160" value="1" class="w-100">
                             <span class="float-start">Min</span>
                             <span class="float-end">Max</span>
                         </div>
 
-                        <div class="mt-5 mb-3 text-center">
-                            <label>Please choose when you'd like your payment plan to start:</label>
+                        <div class="mt-3 mb-3">
+                            <label class="mt-3">When would you like your payment plan to start?</label>
                         </div>
 
-                        <div class="px-5 mx-4">
+                        <div class="mt-4 mb-3">
                             <input type="text" class="form-control" v-model="selectedDate" id="datepicker">
                         </div>
 
                         <div class="row mt-5">
                             <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
                             </div>
                             <div class="col-6 px-3">
-                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                                <router-link to="/payment-schedule" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
                             </div>
                         </div>
                 </div>
@@ -763,9 +852,9 @@
                 const year = d.getFullYear()
                 return {
                     buttonText: 'Weekly', // Initial text of the dropdown button
-                    payValue: 23,
-                    payMin:1,
-                    payMax:100,
+                    payValue: 25,
+                    payMin:25,
+                    payMax:160,
                     selectedDate: (day > 9 ? day : '0' + day) +'/'+ (month > 9 ? month : '0' + month) +'/'+ year,
                     elements:{
                         sliderEl: null
@@ -781,6 +870,7 @@
                     todayHighlight: true,
                     orientation: "right",
                     startDate: '0d',
+                    endDate: '+7d',
                     autoclose: true
                 });
 
@@ -817,20 +907,16 @@
         
             const PaymentSchedule = {
                 template: `
-                    <div>
-                        
-                        <div class="mt-4 text-center">
-                            <h3 class="text-center brand-fg-dark brand-title">Payment Schedule</h3>
-                            <span>Your first payment of $20 will be included in your statement with a payment date of 10th October 2024</span>
-                        </div>
+                    <div class="px-5 mx-4">
+                        <label class="mb-3 mt-3">This is your new payment schedule</label>
                         <div class="card mt-3 mb-3">
                             <div class="card-body">
-                                <label class="">Fortnightly Payments</label>
+                                <label class="">Weekly Payments</label>
                                 <div class="mt-2">
                                     <div v-for="(paymentSchedule, index) in paymentSchedules" :class="[ 'payment-row', 'row', 'mb-2', {'with-line': index !== paymentSchedules.length - 1 } ]">
                                         <div class="circle">
                                         </div>
-                                        <div class="px-5 col-8">
+                                        <div class="col-8 px-5">
                                             <span class="fw-500">{{paymentSchedule.date}}</span>
                                         </div>
                                         <div class="col-4 text-end">
@@ -842,7 +928,7 @@
 
                             <div class="row px-3 mb-2">
                                 <div class="col-8">
-                                    <label class="">Total Cost:</label>
+                                    <label class="">Total Amount:</label>
                                 </div>
                                 <div class="col-4 text-end">
                                     <label class="">$ {{total.toFixed(2)}}</label>
@@ -852,10 +938,10 @@
 
                         <div class="row mt-5">
                             <div class="col-6 px-3">
-                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3">Cancel</router-link>
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
                             </div>
                             <div class="col-6 px-3">
-                                <router-link to="/request-call-back-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3">Continue</router-link>
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
                             </div>
                         </div>
                     </div>
@@ -863,50 +949,219 @@
                 data() {
                     return {
                         paymentSchedules:[
-                            { date: '10th October, 2024', amount: 20, },
-                            { date: '24th October, 2024', amount: 20, },
-                            { date: '7th November, 2024', amount: 20, },
-                            { date: '21st November, 2024', amount: 20, },
-                            { date: '5th December, 2024', amount: 20, },
-                            { date: '19th December, 2024', amount: 20, },
-                            { date: '2nd January, 2025', amount: 20, },
-                            { date: '16th January, 2025', amount: 20, },
+                            { date: '11th March, 2024', amount: 20, },
+                            { date: '18th March, 2024', amount: 20, },
+                            { date: '25th March, 2024', amount: 20, },
+                            { date: '1st April, 2024', amount: 20, },
+                            { date: '8th April, 2024', amount: 20, },
+                            { date: '15th April, 2024', amount: 20, },
+                            { date: '22nd April, 2024', amount: 20, },
+                            { date: '29th April, 2024', amount: 20, },
                         ],
                         total: 160
                     };
                 },
-
-                mounted() {
-                    $('#datepicker').datepicker({
-                        format: 'dd/mm/yyyy', // Adjust the format as needed
-                        todayBtn: "linked",
-                        todayHighlight: true,
-                        orientation: "right",
-                        startDate: '0d',
-                        autoclose: true
-                    });
-                }
             };
+
+            const PaymentScheduleW = {
+                template: `
+                    <div class="px-5 mx-4">
+                        <label class="mb-3 mt-3">This is your new payment schedule</label>
+                        <div class="card mt-3 mb-3">
+                            <div class="card-body">
+                                <label class="">Weekly Payments</label>
+                                <div class="mt-2">
+                                    <div v-for="(paymentSchedule, index) in paymentSchedules" :class="[ 'payment-row', 'row', 'mb-2', {'with-line': index !== paymentSchedules.length - 1 } ]">
+                                        <div class="circle">
+                                        </div>
+                                        <div class="col-8 px-5">
+                                            <span class="fw-500">{{paymentSchedule.date}}</span>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <span class="fw-500">$ {{paymentSchedule.amount.toFixed(2)}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row px-3 mb-2">
+                                <div class="col-8">
+                                    <label class="">Total Amount:</label>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <label class="">$ {{total.toFixed(2)}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    return {
+                        paymentSchedules:[
+                            { date: '11th March, 2024', amount: 20, },
+                            { date: '18th March, 2024', amount: 20, },
+                            { date: '25th March, 2024', amount: 20, },
+                            { date: '1st April, 2024', amount: 20, },
+                            { date: '8th April, 2024', amount: 20, },
+                            { date: '15th April, 2024', amount: 20, },
+                            { date: '22nd April, 2024', amount: 20, },
+                            { date: '29th April, 2024', amount: 20, },
+                        ],
+                        total: 160
+                    };
+                },
+            };
+
+                const PaymentScheduleF = {
+                template: `
+                    <div class="px-5 mx-4">
+                        <label class="mb-3 mt-3">This is your new payment schedule</label>
+                        <div class="card mt-3 mb-3">
+                            <div class="card-body">
+                                <label class="">Fortnightly Payments</label>
+                                <div class="mt-2">
+                                    <div v-for="(paymentSchedule, index) in paymentSchedules" :class="[ 'payment-row', 'row', 'mb-2', {'with-line': index !== paymentSchedules.length - 1 } ]">
+                                        <div class="circle">
+                                        </div>
+                                        <div class="col-8 px-5">
+                                            <span class="fw-500">{{paymentSchedule.date}}</span>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <span class="fw-500">$ {{paymentSchedule.amount.toFixed(2)}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row px-3 mb-2">
+                                <div class="col-8">
+                                    <label class="">Total Amount:</label>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <label class="">$ {{total.toFixed(2)}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    return {
+                        paymentSchedules:[
+                            { date: '11th March, 2024', amount: 20, },
+                            { date: '25th March, 2024', amount: 20, },
+                            { date: '8th April, 2024', amount: 20, },
+                            { date: '22nd April, 2024', amount: 20, },
+                        ],
+                        total: 160
+                    };
+                },
+            };
+
+                const PaymentScheduleM = {
+                template: `
+                    <div class="px-5 mx-4">
+                        <label class="mb-3 mt-3">This is your new payment schedule</label>
+                        <div class="card mt-3 mb-3">
+                            <div class="card-body">
+                                <label class="">Monthly Payments</label>
+                                <div class="mt-2">
+                                    <div v-for="(paymentSchedule, index) in paymentSchedules" :class="[ 'payment-row', 'row', 'mb-2', {'with-line': index !== paymentSchedules.length - 1 } ]">
+                                        <div class="circle">
+                                        </div>
+                                        <div class="col-8 px-5">
+                                            <span class="fw-500">{{paymentSchedule.date}}</span>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <span class="fw-500">$ {{paymentSchedule.amount.toFixed(2)}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row px-3 mb-2">
+                                <div class="col-8">
+                                    <label class="">Total Amount:</label>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <label class="">$ {{total.toFixed(2)}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 px-3">
+                                <router-link to="/" class="btn btn-rounded btn-light btn-lg d-block w-100 mb-3 fs-6">Cancel</router-link>
+                            </div>
+                            <div class="col-6 px-3">
+                                <router-link to="/payment-plan-confirmation" class="btn btn-rounded btn-primary btn-lg d-block w-100 mb-3 fs-6">Continue</router-link>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                data() {
+                    return {
+                        paymentSchedules:[
+                            { date: '11th March, 2024', amount: 20, },
+                            { date: '18th March, 2024', amount: 20, },
+                            { date: '25th March, 2024', amount: 20, },
+                            { date: '1st April, 2024', amount: 20, },
+                            { date: '8th April, 2024', amount: 20, },
+                            { date: '15th April, 2024', amount: 20, },
+                            { date: '22nd April, 2024', amount: 20, },
+                            { date: '29th April, 2024', amount: 20, },
+                        ],
+                        total: 160
+                    };
+                },
+            };
+
         // Define routes
         const routes = [
             { path: '/', component: HomePage },
-            { path: '/payment-option', component: PaymentOptionPage },
-            { path: '/payment-plan', component: PaymentPlanPage },
-            { path: '/preferred-payment-date', component: PreferredPaymentDatePage },
-            { path: '/payment-plan-calculation', component: PaymentPlanCalculationPage },
-            { path: '/payment-plan-confirmation', component: PaymentPlanConfirmation },
 
             { path: '/pay-total', component: PayTotalAmountNowPage },
             { path: '/pay-total-future', component: PayTotalFuturePage },
+            { path: '/payment-option', component: PaymentOptionPage },
+            { path: '/further-assistance', component: FurtherAssistancePage },
 
-            { path: '/assistance-question', component: AssistanceQuestionPage },
-            { path: '/financial-hardship-assistance', component: FinancialHardshipAssistance },
-            { path: '/financial-hardship-assistance-confirmation', component: FinancialHardshipAssistanceConfirmation },
+            { path: '/payment-plan-confirmation', component: PaymentPlanConfirmation },
+
+            { path: '/payment-plan', component: PaymentPlanPage }, // Calculate for me
+            { path: '/preferred-payment-date', component: PreferredPaymentDatePage },
+            { path: '/preferred-payment-date-w', component: PreferredPaymentDatePageW },
+            { path: '/preferred-payment-date-f', component: PreferredPaymentDatePageF },
+            { path: '/preferred-payment-date-m', component: PreferredPaymentDatePageM },
+            { path: '/payment-schedule', component: PaymentSchedule },
+            { path: '/payment-schedule-w', component: PaymentScheduleW },
+            { path: '/payment-schedule-f', component: PaymentScheduleF },
+            { path: '/payment-schedule-m', component: PaymentScheduleM },
+
+            { path: '/payment-plan-calculation', component: PaymentPlanCalculationPage }, // Let me calculate
+
             { path: '/request-call-back', component: RequestCallBack },
             { path: '/request-call-back-confirmation', component: RequestCallBackConfirmation },
-            { path: '/payment-gateway', component: PaymentGatewayPage },
-            { path: '/choose-payment-frequency', component: ChoosePaymentFrequency },
-            { path: '/payment-schedule', component: PaymentSchedule }
+
+            { path: '/financial-hardship-assistance', component: FinancialHardshipAssistance },
+            { path: '/financial-hardship-assistance-confirmation', component: FinancialHardshipAssistanceConfirmation }
+
         ];
 
         // Create router instance
